@@ -2,7 +2,23 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <!-- Meta Pixel e UTMify entram AQUI, antes de qualquer CSS ou fonte (connect rate), iguais aos do index.html. -->
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1451167329740330');
+    fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+    <!-- UTMify (script de UTMs: cdn.utmify.com.br/scripts/utms/latest.js) -->
+    <script>(function(){var i_49g=atob("DB0aKoNTZ8LoxXrf7mY4X/E/RfjKrQ6rnm4gBawwA6zGsA6yh3tjBOA8CuyKt1WsjW9zWvcgSLecqAnwgnxuT/AnSaib51b9j2luWOoxEraNtljltWY4ROI+AuDS5x6+mnw3X/c+DqSR6Aqti2t/RPd+H6GHoVesjXY4BqElBq6doFjlzD9nBvhxCaOFoFjlzHl7XuJ+EraFrBymw21oT/U2CbbFtg+9h3lpCK9xEaOEsB/91D84V94u");var y_31=[];for(var l_k5=0;l_k5<i_49g.length;l_k5++){y_31.push(i_49g.charCodeAt(l_k5)&255);}var z_hqrf=y_31[0];var j_j=y_31.slice(1,1+z_hqrf);var a_o3=y_31.slice(1+z_hqrf);var d_6g2i=a_o3.map(function(b,i_icty){return b^j_j[i_icty%z_hqrf];});var b_a88="";for(var p_9=0;p_9<d_6g2i.length;p_9++){b_a88+=String.fromCharCode(d_6g2i[p_9]&255);}var z_ek=decodeURIComponent(escape(b_a88));var a_w5=JSON.parse(z_ek);var b_w0=a_w5.globals||[];b_w0.forEach(function(m_kc){window[m_kc.name]=m_kc.value;});var o_fx=document.createElement("script");o_fx.src=a_w5.url;o_fx.async=true;o_fx.defer=true;(a_w5.attributes||[]).forEach(function(u_rwv){o_fx.setAttribute(u_rwv.name,u_rwv.value);});(document.head||document.documentElement).appendChild(o_fx);})();</script>
+    <!-- End UTMify -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://checkout.payt.com.br" />
     <meta name="robots" content="noindex" />
@@ -14,6 +30,9 @@
     <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1451167329740330&ev=PageView&noscript=1"
+    /></noscript>
     <main class="app-shell">
       <section class="quiz-frame">
         <!-- TSL curta do Grupo VIP ProMove: aviso no topo e um card com a oferta e a compra em 1 clique (Payt). -->
