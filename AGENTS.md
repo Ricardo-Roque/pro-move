@@ -6,5 +6,6 @@
 - Offer data (price, checkout URL, countdown) lives in the `offer` object in `script.js`. Never simulate a successful payment: the buy buttons only link to the Payt checkout.
 - After checkout: `up1/` (Acesso Vitalício), then `up2/` (Grupo VIP), then `obrigado/`. Each upsell is a short TSL card (`up1-*` classes in `styles.css`) with Payt one-click buy (`payt_action="oneclick_buy"` + `data-object` offer code, script `multiple-oneclickbuyscript/LJXW3R.js`). Where the buyer goes after accepting is set in Payt; the decline link target is `declineUrl` in each `upsell.js`. Price shown on the page must match the Payt offer.
 - Images go in `images/` as WebP, resized to display size. Fonts are self-hosted in `fonts/`.
+- Quiz progress goes to Supabase (project "Grupo RME"): `progress.js` queues `pmTrack` events and posts them to the Edge Function `track-promove`, which writes `public.promove_sessions` (one row per visit) through `apply_promove_session_events`. Disabled on localhost. A new event type must be allowed in the function's `TYPES` and handled in the SQL function.
 - Meta Pixel and UTMify, when added, go at the top of `<head>` before any CSS or font.
 - Local test: `python -m http.server 5173`, then `http://127.0.0.1:5173/?step=<id>` opens a screen directly (extras: `name`, `xp`, `goal`). This shortcut only works on localhost.

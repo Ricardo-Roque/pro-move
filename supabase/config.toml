@@ -1,0 +1,3 @@
+# Minimum needed to deploy the function. Run `supabase init` to generate the rest if needed.
+[functions.track-promove]
+verify_jwt = false
