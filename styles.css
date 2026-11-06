@@ -342,6 +342,39 @@ a {
   background: var(--tile-4);
 }
 
+.tile__media--5 {
+  background: var(--tile-1);
+}
+
+/* Último cartão: largura toda, imagem pequena à esquerda e texto ao lado. */
+.tile--wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+}
+
+.tile--wide .tile__media {
+  flex: 0 0 84px;
+  width: 84px;
+}
+
+.tile--wide .tile__label {
+  flex: 1;
+  justify-content: flex-start;
+  min-height: 0;
+  text-align: left;
+}
+
+.tile--wide .tile__media .img-placeholder__emoji {
+  font-size: 40px;
+}
+
+.tile--wide .tile__media .img-placeholder small {
+  display: none;
+}
+
 .tile__media img {
   display: block;
   width: 100%;

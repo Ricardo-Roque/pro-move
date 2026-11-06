@@ -52,26 +52,178 @@ const question = (id, title, subtitle, options) => ({
   icons: options.map(([icon]) => icon),
 });
 
+// Caminhos do quiz. A resposta da primeira tela escolhe o caminho:
+// os 4 primeiros cartões seguem "trabalho"; "Sem trabalho / Buscando uma fonte de renda" segue "renda".
+// Telas com `path` só aparecem no caminho delas; telas sem `path` aparecem nos dois.
+const perfilPaths = ["trabalho", "trabalho", "trabalho", "trabalho", "renda"];
+const onPath = (path, list) => list.map((step) => ({ ...step, path }));
+
 const steps = [
   {
     id: "perfil",
     kind: "tiles",
     title: "O que melhor descreve você agora?",
     subtitle: "Vamos construir seu caminho de IA com base na sua situação real.",
-    options: ["Trabalho para uma empresa", "Trabalho por conta própria", "Tenho um pequeno negócio", "Estou mudando de direção"],
+    options: ["Trabalho para uma empresa", "Trabalho por conta própria", "Tenho um pequeno negócio", "Estou mudando de direção", "Sem trabalho / Buscando uma fonte de renda"],
+    // O 5º cartão ainda não tem imagem (images/perfil-sem-trabalho.webp): no index.html ele mostra só o emoji.
     images: ["images/perfil-empresa.webp", "images/perfil-autonomo.webp", "images/perfil-negocio.webp", "images/perfil-mudando.webp"],
-    emojis: ["🏢", "🧑‍💻", "🏪", "🧭"],
+    emojis: ["🏢", "🧑‍💻", "🏪", "🧭", "🔎"],
   },
   {
     id: "comunidade",
     kind: "info",
-    image: "images/info-comunidade.webp",
-    imageSize: [668, 648],
+    image: "images/info-fundador.webp",
+    imageSize: [670, 670],
     kicker: "Mais de 2.000.000",
     title: "de pessoas entraram no {brand} para dominar a IA",
     paragraphs: ["Agora vamos entender o seu dia a dia para montar um caminho que faça sentido para você."],
     cta: "Continuar",
   },
+  ...onPath("renda", [
+    question("r_area", "Com o que você mais se identifica?", "Escolha a opção mais próxima.", [
+      ["📣", "Redes sociais / Conteúdo"],
+      ["🎨", "Artes / Design"],
+      ["✍️", "Escrita / Textos"],
+      ["🎬", "Vídeos / Edição"],
+      ["💬", "Vendas / WhatsApp"],
+      ["🤝", "Atendimento a clientes"],
+      ["📋", "Organização / Administrativo"],
+      ["🌎", "Idiomas / Tradução"],
+      ["🎓", "Ensinar / Explicar coisas"],
+      ["🛍️", "Produtos / Loja online"],
+      ["💻", "Tecnologia / Computador"],
+      ["✨", "Outro"],
+    ]),
+    question("r_objetivo", "O que você mais quer conquistar com a IA?", "Escolha o que é mais importante para você.", [
+      ["💸", "Gerar uma renda com IA com poucas horas por dia"],
+      ["💼", "Conseguir melhores oportunidades de emprego"],
+      ["🦅", "Conquistar minha independência financeira"],
+      ["🏡", "Construir um futuro estável para minha família"],
+      ["🙌", "Parar de depender de outras pessoas"],
+    ]),
+    // Telas de reforço do caminho "renda": mesmas posições e imagens do caminho "trabalho", texto voltado para renda.
+    {
+      id: "r_nao_generico",
+      kind: "info",
+      image: "images/info-renda-nao-generico.webp",
+      imageSize: [670, 447],
+      title: "Seu plano de renda com IA não pode ser genérico.",
+      paragraphs: ["A maioria das pessoas não consegue ganhar dinheiro com IA porque recebe dicas soltas, ferramentas aleatórias e nenhum caminho claro. O {brand} monta o seu caminho com base na sua área, no seu objetivo e na sua primeira vitória."],
+      cta: "Continuar",
+    },
+    question("r_situacao", "O que mais pesa na sua situação hoje?", "Muitas pessoas que hoje ganham com IA começaram exatamente daqui.", [
+      ["📉", "As contas apertadas no fim do mês"],
+      ["📨", "Mandar currículo e não ter retorno"],
+      ["⏰", "Não ter tempo nem flexibilidade"],
+      ["⏳", "Sentir que estou perdendo tempo"],
+      ["🔒", "Não ter uma renda só minha"],
+      ["😔", "Não saber por onde recomeçar"],
+      ["🙇", "Depender financeiramente de outra pessoa"],
+    ]),
+    // Depoimento de exemplo: troque por um depoimento real do ProMove antes de anunciar.
+    {
+      id: "r_avaliacao",
+      kind: "review",
+      title: "Você não precisa de experiência para começar",
+      reviewTitle: "Meu primeiro cliente veio na segunda semana",
+      text: "Eu estava sem trabalho e não sabia nem por onde começar. Segui o passo a passo, montei meu perfil e fechei meu primeiro cliente criando posts com IA. Hoje tenho uma renda que é só minha.",
+      author: "Renata Alves",
+      authorNote: "Cliente verificada · Salvador, BA",
+      cta: "Continuar",
+    },
+    question("r_primeira_semana", "O que você precisa conquistar já na primeira semana?", "Quem começa com uma vitória rápida não desiste no meio do caminho.", [
+      ["💰", "Fazer minha primeira venda com IA"],
+      ["📲", "Fechar meu primeiro cliente"],
+      ["🧭", "Saber exatamente o que vender e para quem"],
+      ["🎨", "Ter meu primeiro trabalho pronto para oferecer"],
+      ["🗂️", "Montar um perfil que atraia clientes"],
+      ["🚫", "Parar de perder tempo e começar de verdade"],
+    ]),
+    question("r_conhecimento", "Quanto você sabe sobre Inteligência Artificial?", "", [
+      ["🤓", "Sei bastante sobre IA"],
+      ["🙂", "Conheço algumas ferramentas"],
+      ["😞", "Meu conhecimento é bem limitado"],
+      ["🤕", "Não sei nada sobre IA"],
+    ]),
+    {
+      id: "r_nao_tecnico",
+      kind: "info",
+      image: "images/info-nao-tecnico.webp",
+      imageSize: [670, 459],
+      title: "Boa notícia: você não precisa entender de tecnologia.",
+      paragraphs: ["A IA de hoje tem menos a ver com programação e mais com saber o que pedir, como transformar isso em uma fonte de renda e como usar a ferramenta certa na hora certa."],
+      cta: "Continuar",
+    },
+    question("r_barreira", "O que está te travando para começar a ganhar com IA?", "Seja sincero: é exatamente isso que o seu plano vai eliminar.", [
+      ["🧭", "Não sei por onde começar"],
+      ["🧰", "São ferramentas demais"],
+      ["⏳", "Não tenho tempo suficiente"],
+      ["🧩", "Parece complicado demais"],
+      ["😬", "Tenho medo de usar errado"],
+      ["💸", "Não sei como ganhar dinheiro com ela"],
+    ]),
+    question("r_sentimento", "Quando as pessoas falam de IA, o que você mais sente?", "Seja honesto: a maioria dos membros começa aqui.", [
+      ["😳", "Que estou ficando para trás"],
+      ["🤔", "Desconfiado, mas curioso"],
+      ["🫣", "Que é só para quem entende de tecnologia"],
+      ["😤", "Raiva por ainda não ter começado"],
+      ["🔥", "Vontade de tentar agora mesmo"],
+      ["🙏", "Esperança de que pode dar certo para mim"],
+    ]),
+    question("r_motivo", "Existe algum motivo para você querer começar agora?", "Um motivo claro facilita o começo.", [
+      ["🧾", "Pagar as contas do mês"],
+      ["🔎", "Ter renda enquanto procuro emprego"],
+      ["🎄", "Fechar o ano com dinheiro e começar o próximo com uma renda nova"],
+      ["🏡", "Juntar para algo importante (casa, viagem, curso)"],
+      ["🙌", "Ajudar em casa com as despesas"],
+      ["🛡️", "Nenhuma data, só não quero ficar parado"],
+    ]),
+    {
+      id: "r_sem_esperar",
+      kind: "info",
+      image: "images/info-renda-sem-esperar.webp",
+      imageSize: [670, 447],
+      title: "Você não precisa esperar se sentir pronto.",
+      paragraphs: ["A maioria das pessoas fica parada porque espera a IA parecer menos confusa. O {brand} te ajuda a começar pequeno, conquistar seu primeiro resultado com inteligência artificial e ganhar confiança a partir daí."],
+      cta: "Continuar",
+    },
+    question("r_tempo", "Quanto tempo você consegue dedicar por dia, na realidade?", "Seu plano vai caber na sua rotina, mesmo que ela seja corrida.", [
+      ["⚡", "10 min/dia"],
+      ["⏱️", "15 min/dia"],
+      ["🕒", "30 min/dia"],
+      ["🎯", "1 hora ou mais/dia"],
+    ]),
+    question("r_formato", "O que faria aprender a ganhar com IA parecer mais fácil?", "Escolha o tipo de ajuda que você realmente usaria.", [
+      ["🎬", "Aulas curtas em vídeo"],
+      ["🪄", "Prompts prontos para copiar e usar"],
+      ["✅", "Um passo a passo por dia"],
+      ["👨‍🏫", "Orientação estilo mentor"],
+      ["👥", "Exemplos de pessoas que começaram do zero"],
+    ]),
+    question("r_prova", "O que mostraria que você está pronto para ganhar com IA?", "O progresso fica melhor quando você consegue ver.", [
+      ["🎓", "Um Certificado de IA"],
+      ["💼", "Meus primeiros trabalhos prontos para oferecer"],
+      ["📈", "Meu progresso visível semana a semana"],
+      ["🤝", "Meu primeiro cliente interessado"],
+      ["💸", "Meu primeiro pagamento recebido"],
+    ]),
+    question("r_pronto", "Pronto para criar seu plano de renda com IA?", "Vamos usar suas respostas para montar seu plano de 28 dias.", [
+      ["🚀", "Sim, criar meu plano agora"],
+      ["👀", "Quero ver como fica o meu caminho"],
+      ["😬", "Estou nervoso, mas quero começar"],
+      ["⚡", "Quero dar meu primeiro passo hoje"],
+    ]),
+    {
+      id: "r_plano_pronto",
+      kind: "info",
+      image: "images/info-plano-pronto.webp",
+      imageSize: [670, 459],
+      title: "Seu caminho de 28 dias até o Certificado de IA está pronto",
+      paragraphs: ["Criado com base na sua área, no seu objetivo e na sua primeira vitória com IA."],
+      cta: "Ver meu plano de certificação",
+    },
+  ]),
+  ...onPath("trabalho", [
   question("area", "O que mais ocupa o seu dia de trabalho?", "Escolha a opção mais próxima.", [
     ["🧾", "Contabilidade / Financeiro"],
     ["💵", "Finanças / Análise"],
@@ -153,22 +305,6 @@ const steps = [
     ["😬", "Tenho medo de usar errado"],
     ["😐", "Não vejo como se encaixa no meu trabalho"],
   ]),
-  {
-    id: "pitch",
-    kind: "info",
-    image: "images/info-pitch.webp",
-    imageSize: [670, 670],
-    title: "IA é mais fácil do que você imagina",
-    paragraphs: ["Nosso programa de certificação é feito para transformar seu conhecimento em IA desde o primeiro dia."],
-    checks: [
-      "**Aumente sua renda com IA.** Transforme ferramentas inteligentes em ganhos reais",
-      "Todas as principais ferramentas de IA: **ChatGPT, Gemini, Grok e mais**",
-      "**Seja certificado** em IA e se destaque. Evolua suas habilidades e credibilidade",
-      "**Desbloqueie mais de 1.000 prompts comprovados** para produtividade, negócios e criatividade",
-      "**Acompanhe seu crescimento** e ganhe confiança. Meça o progresso e evolua",
-    ],
-    cta: "Continuar",
-  },
   question("sentimento", "Quando as pessoas falam de IA, o que você mais sente?", "Seja honesto — a maioria dos membros começa aqui.", [
     ["😳", "Para trás, mas curioso"],
     ["😵", "Sobrecarregado"],
@@ -220,8 +356,10 @@ const steps = [
     ["😬", "Estou nervoso, mas quero começar"],
     ["⚡", "Quero minha primeira vitória de IA hoje"],
   ]),
+  ]),
   {
     id: "plano_pronto",
+    path: "trabalho",
     kind: "info",
     image: "images/info-plano-pronto.webp",
     imageSize: [670, 459],
@@ -248,17 +386,20 @@ const steps = [
   { id: "venda", kind: "sales" },
 ];
 
-// Perguntas numeradas no contador "3/12" do topo.
-const questionIds = steps.filter((step) => step.kind === "single").map((step) => step.id);
-
 const state = {
   index: 0,
+  path: "trabalho",
   name: "",
   answers: {},
   picks: {},
   timers: [],
   trackedIndex: -1,
 };
+
+const inPath = (step) => !step.path || step.path === state.path;
+
+// Perguntas numeradas no contador "3/12" do topo (só as do caminho atual).
+const questionIds = () => steps.filter((step) => step.kind === "single" && inPath(step)).map((step) => step.id);
 
 // Índice da opção escolhida (0 = primeira). -1 se a pergunta não foi respondida.
 const pick = (id) => state.picks[id] ?? -1;
@@ -322,13 +463,14 @@ function updateHeader() {
   const step = steps[state.index];
   appHeader.classList.toggle("hidden", step.kind === "sales");
   backButton.classList.toggle("is-visible", state.index > 0 && !["loader", "spin"].includes(step.kind));
-  const number = questionIds.indexOf(step.id) + 1;
-  stepCounter.innerHTML = number ? `<b>${number}</b>/${questionIds.length}` : "";
+  const ids = questionIds();
+  const number = ids.indexOf(step.id) + 1;
+  stepCounter.innerHTML = number ? `<b>${number}</b>/${ids.length}` : "";
   // Telas entre perguntas mantêm a barra no ponto da última pergunta respondida (sem contador).
-  const answered = steps.slice(0, state.index + 1).filter((item) => item.kind === "single").length;
+  const answered = steps.slice(0, state.index + 1).filter((item) => item.kind === "single" && inPath(item)).length;
   const inQuiz = answered > 0 && state.index < steps.findIndex((item) => item.kind === "loader");
   progressBar.classList.toggle("hidden", !inQuiz);
-  progressBar.firstElementChild.style.width = `${(answered / questionIds.length) * 100}%`;
+  progressBar.firstElementChild.style.width = `${(answered / ids.length) * 100}%`;
 }
 
 // Telas visitadas, para o "voltar" respeitar o caminho feito.
@@ -340,8 +482,11 @@ function goTo(index) {
   render();
 }
 
+// Pula as telas de outro caminho.
 function next() {
-  goTo(Math.min(state.index + 1, steps.length - 1));
+  let index = state.index + 1;
+  while (index < steps.length - 1 && !inPath(steps[index])) index += 1;
+  goTo(index);
 }
 
 function back() {
@@ -355,6 +500,7 @@ function answer(value, index) {
   const step = steps[state.index];
   state.answers[step.id] = value;
   if (index !== undefined) state.picks[step.id] = index;
+  if (step.id === "perfil") state.path = perfilPaths[index] || "trabalho";
   pmTrack("answer", { key: step.id, value });
   next();
 }
@@ -417,6 +563,7 @@ function prefetchAhead() {
     let found = 0;
     for (let i = state.index + 1; i < steps.length && found < 2; i += 1) {
       const step = steps[i];
+      if (!inPath(step)) continue;
       const urls = [...(step.images || []), step.image, ...(stepImages[step.kind] || [])].filter(Boolean);
       if (!urls.length) continue;
       found += 1;
@@ -601,8 +748,11 @@ const levels = [
   { label: "Médio", pos: 60, text: "você usa IA, mas ainda sem um sistema claro" },
 ];
 
+// Caminho "renda": "Quanto você sabe sobre IA" vai de mais para menos, ao contrário de "experiência".
+const levelIndex = () => (state.path === "renda" ? [3, 2, 1, 0][pick("r_conhecimento")] : pick("experiencia"));
+
 function renderReport() {
-  const level = levels[pick("experiencia")] || levels[1];
+  const level = levels[levelIndex()] || levels[1];
   setScreen(`
     <h1 class="title title--center">${withName("seu resumo pessoal")}</h1>
     <p class="subtitle subtitle--center">Com base nas suas respostas, ${level.text}. Você precisa evoluir rápido!</p>
@@ -800,6 +950,15 @@ const goalShort = [
   "Novas possibilidades de carreira",
 ];
 
+// Caminho "renda": resposta curta de "O que você mais quer conquistar com a IA?".
+const goalShortRenda = [
+  "Gerar renda com IA em poucas horas por dia",
+  "Melhores oportunidades de emprego",
+  "Minha independência financeira",
+  "Um futuro estável para minha família",
+  "Parar de depender de outras pessoas",
+];
+
 const tools = [
   ["DeepSeek", "deepseek"],
   ["ChatGPT", "chatgpt"],
@@ -843,15 +1002,17 @@ const recentSignups = [
   ["Bruno S.", "Ribeirão Preto"],
 ];
 
-// Reaproveita depoimentos do carregamento: [nome, texto, cidade].
-const salesReviews = [1, 2, 4].map((index) => {
+// Reaproveita depoimentos do carregamento: [nome, texto, cidade, foto].
+// As fotos são as mesmas dos depoimentos do GoodKids: troque por fotos de alunos reais do ProMove antes de anunciar.
+const salesPhotos = ["images/avatar-luciana.webp", "images/avatar-camila.webp", "images/avatar-patricia.webp"];
+const salesReviews = [1, 2, 4].map((index, position) => {
   const [text, name, city] = loaderReviews[index];
-  return [name, text, city];
+  return [name, text, city, salesPhotos[position]];
 });
 
 const faqItems = [
   ["Preciso já saber usar IA?", "Não. O programa começa do seu ponto de partida, mesmo que você nunca tenha usado uma ferramenta de IA."],
-  ["Quanto tempo por dia preciso dedicar?", "Poucos minutos. O plano segue o tempo que você escolheu no quiz, de 3 a 15 minutos por dia."],
+  ["Quanto tempo por dia preciso dedicar?", "Pouco tempo. O plano segue o tempo por dia que você escolheu no quiz."],
   ["O que eu recebo?", "O Programa Pessoal de Certificação em IA de 28 dias, com as principais ferramentas de IA, mais de 1.000 prompts e o acompanhamento do seu progresso."],
 ];
 
@@ -879,7 +1040,7 @@ function offerBlock() {
 }
 
 function renderSales() {
-  const goal = goalShort[pick("mudanca")] || "Crescer no seu cargo atual";
+  const goal = state.path === "renda" ? goalShortRenda[pick("r_objetivo")] || "Gerar renda com IA" : goalShort[pick("mudanca")] || "Crescer no seu cargo atual";
   setScreen(
     `
     <div class="sales-top">
@@ -918,7 +1079,7 @@ function renderSales() {
       <p class="pw-stars">★★★★★</p>
       <h2>Pessoas que já usam IA no dia a dia</h2>
       <div class="reviews">
-        ${salesReviews.map(([name, text, city]) => `<blockquote class="review"><div class="review-head"><span class="avatar avatar--initials">${name.split(" ").map((word) => word[0]).join("")}</span><div><strong>${name}</strong><small class="review-sub">${city}</small><div class="review-stars">★★★★★</div></div></div><p>${text}</p></blockquote>`).join("")}
+        ${salesReviews.map(([name, text, city, photo]) => `<blockquote class="review"><div class="review-head">${photo ? imageTag(photo, [36, 36], "", ' class="avatar" loading="lazy"') : `<span class="avatar avatar--initials">${name.split(" ").map((word) => word[0]).join("")}</span>`}<div><strong>${name}</strong><small class="review-sub">${city}</small><div class="review-stars">★★★★★</div></div></div><p>${text}</p></blockquote>`).join("")}
       </div>
     </section>
     <section class="section plan-block" id="oferta2">
@@ -994,10 +1155,14 @@ pmTrack("landing", {
   },
 });
 
-// Só em ambiente local: ?step=<id> abre direto numa tela. Extras: name=Ana, xp=0..3, goal=0..5.
+// Só em ambiente local: ?step=<id> abre direto numa tela. Extras: name=Ana, xp=0..3, goal=0..5, path=renda.
+// Em telas de um caminho só (ex.: r_area), o caminho vem da própria tela.
 if (["localhost", "127.0.0.1"].includes(window.location.hostname) && landingParams.get("step")) {
   const target = steps.findIndex((step) => step.id === landingParams.get("step"));
   if (target !== -1) state.index = target;
+  state.path = steps[target]?.path || (landingParams.get("path") === "renda" ? "renda" : "trabalho");
+  if (state.path === "renda" && landingParams.get("xp")) state.picks.r_conhecimento = 3 - Number(landingParams.get("xp"));
+  if (state.path === "renda" && landingParams.get("goal")) state.picks.r_objetivo = Number(landingParams.get("goal"));
   if (landingParams.get("name")) state.name = landingParams.get("name");
   if (landingParams.get("xp")) state.picks.experiencia = Number(landingParams.get("xp"));
   if (landingParams.get("goal")) state.picks.mudanca = Number(landingParams.get("goal"));
