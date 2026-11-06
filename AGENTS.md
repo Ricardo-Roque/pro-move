@@ -8,4 +8,3 @@
 - Images go in `images/` as WebP, resized to display size. Fonts are self-hosted in `fonts/`.
 - Meta Pixel and UTMify, when added, go at the top of `<head>` before any CSS or font.
 - Local test: `python -m http.server 5173`, then `http://127.0.0.1:5173/?step=<id>` opens a screen directly (extras: `name`, `xp`, `goal`). This shortcut only works on localhost.
-- `_lovable/` holds the previous React/Lovable version for reference. It is not deployed.
