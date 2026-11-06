@@ -1,4 +1,4 @@
-// Upsell 1 (TSL do Grupo VIP ProMove): o botão de compra é tratado pelo script da Payt
+// Upsell 1 (TSL do Acesso Vitalício ProMove): o botão de compra é tratado pelo script da Payt
 // (compra em 1 clique, ver index.html). Aqui só o link de recusa [data-decline].
 const upsellConfig = {
   // Para onde vai quem recusa: o próximo upsell.
