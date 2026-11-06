@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Meta Pixel e UTMify entram AQUI, antes de qualquer CSS ou fonte (connect rate).
+         Ver o head do goodkids/index.html como modelo. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="dns-prefetch" href="https://payt.site" />
+    <meta name="description" content="Quiz ProMove: responda algumas perguntas e receba seu Programa Pessoal de Certificação em IA de 28 dias." />
+    <title>ProMove | Seu Programa Pessoal de Certificação em IA</title>
+    <link rel="preload" as="font" type="font/woff2" href="fonts/figtree-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="fonts/figtree-700.woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="quiz-frame">
+        <header id="appHeader" class="app-header">
+          <div class="app-header__bar">
+            <button id="backButton" class="back-button" type="button" aria-label="Voltar">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <img class="header-logo" src="images/logo-promove.webp" alt="ProMove" width="100" height="23" />
+            <span id="stepCounter" class="step-counter"></span>
+          </div>
+          <div id="progressBar" class="progress hidden"><span></span></div>
+        </header>
+        <div id="app" class="screen">
+          <!-- Primeira pergunta já no HTML, sem animação: aparece antes do script carregar
+               (melhor LCP e connect rate). O script reaproveita este conteúdo. -->
+          <h1 class="title title--center">O que melhor descreve você agora?</h1>
+          <p class="subtitle subtitle--center">Vamos construir seu caminho de IA com base na sua situação real.</p>
+          <div class="tiles">
+            <button class="tile" type="button" data-option="0">
+              <span class="tile__media tile__media--1"><img src="images/perfil-empresa.webp" alt="" width="384" height="384" fetchpriority="high" decoding="async" data-emoji="🏢" /></span>
+              <span class="tile__label">Trabalho para uma empresa</span>
+            </button>
+            <button class="tile" type="button" data-option="1">
+              <span class="tile__media tile__media--2"><img src="images/perfil-autonomo.webp" alt="" width="384" height="384" fetchpriority="high" decoding="async" data-emoji="🧑‍💻" /></span>
+              <span class="tile__label">Trabalho por conta própria</span>
+            </button>
+            <button class="tile" type="button" data-option="2">
+              <span class="tile__media tile__media--3"><img src="images/perfil-negocio.webp" alt="" width="384" height="384" fetchpriority="high" decoding="async" data-emoji="🏪" /></span>
+              <span class="tile__label">Tenho um pequeno negócio</span>
+            </button>
+            <button class="tile" type="button" data-option="3">
+              <span class="tile__media tile__media--4"><img src="images/perfil-mudando.webp" alt="" width="384" height="384" fetchpriority="high" decoding="async" data-emoji="🧭" /></span>
+              <span class="tile__label">Estou mudando de direção</span>
+            </button>
+          </div>
+          <p class="disclaimer">
+            Ao continuar, você concorda com os <a href="#" data-legal="terms">Termos e Condições</a>, a
+            <a href="#" data-legal="privacy">Política de Privacidade</a> e os
+            <a href="#" data-legal="subscription">Termos de Assinatura</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+    <script src="script.js?v=1" defer></script>
+  </body>
+</html>
